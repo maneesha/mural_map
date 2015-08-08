@@ -1,4 +1,4 @@
-    <script>
+
 // In the following example, markers appear when the user clicks on the map.
 // The markers are stored in an array.
 // The user can then click an option to hide, show or delete the markers.
@@ -8,6 +8,9 @@ var firstLocation;
 var clickedMarker;
 
 /*
+
+Pseudocode:
+
 Get 6 items at random from database
 //var item = items[Math.floor(Math.random()*items.length)];
 item1 = {attractionName:attractionName, attractionLocation:new.google.maps.LatLng(x,y)
@@ -26,13 +29,6 @@ click to display actual location
 */
 
 
-
-//var artMuseum = new google.maps.LatLng(39.964741, -75.179733);
-//var independenceHall = new google.maps.LatLng(39.948703, -75.149891);
-//var franklinMills = new google.maps.LatLng(40.085967, -74.963622);
-//console.log("ART MUSEUM IS ", artMuseum)
-
-
 var artMuseum ={attractionName:"Philadelphia Museum of Art", attractionLocation: new google.maps.LatLng(39.964741, -75.179733)}
 var independenceHall = {attractionName: "Independence Hall", attractionLocation: new google.maps.LatLng(39.948703, -75.149891)};
 var franklinMills = {attractionName: "Franklin Mills Mall", attractionLocation: new google.maps.LatLng(40.085967, -74.963622)};
@@ -42,20 +38,11 @@ var cityHall = {attractionName: "City Hall", attractionLocation: new google.maps
 
 attractions = [artMuseum, independenceHall, franklinMills, philliesStadium, rittenhouseSquare, cityHall];
 
-
 randomAttraction = attractions[Math.floor(Math.random()*attractions.length)];
-
-
-
-
-
-console.log("PMA: ", artMuseum.attractionName, artMuseum.attractionLocation)
-
-
 
 function initialize() {
 
-locationTarget.innerHTML = "Where is " + randomAttraction.attractionName;
+  locationTarget.innerHTML = "Where is " + randomAttraction.attractionName;
 
   firstLocation = new google.maps.LatLng(39.97699298, -75.164469157);
   var mapOptions = {
@@ -63,27 +50,20 @@ locationTarget.innerHTML = "Where is " + randomAttraction.attractionName;
     center: firstLocation,
     mapTypeId: google.maps.MapTypeId.TERRAIN, 
     styles:  [ { featureType: "poi", elementType: "labels", stylers: [ { visibility: "off" } ] }, { featureType: "transit", elementType: "labels", stylers: [ { visibility: "off" } ] }] 
-    //{ featureType: "poi",
-    //  elementType: "labels",
-    //  stylers: [
-     //        { visibility: "off" }
-     //            ]
-   // }
-    
       };
+
   map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
 
   // This event listener will call addMarker() when the map is clicked.
   google.maps.event.addListener(map, 'click', function(event) {
     addMarker(event.latLng);
-    //console.log("YOUR CLICK LAT LNG:  ", event.latLng)
-    
+
   });
    //clickedMarker = firstLocation
   // Adds a marker at the center of the map.
   //addMarker(firstLocation);
-}
+} //close function initialize()
 
 
 var lat1, lon1, lat2, lon2
@@ -98,36 +78,27 @@ function addMarker(location) {
   //console.log(marker.position);
   //note marker.position is the same as event.latLng
   clickedMarker = marker;
-  console.log("CLICKED MARKER: ", clickedMarker.position)
+
   
                 lat2 = clickedMarker.position.G
                 lon2 = clickedMarker.position.K 
-  console.log("FIRST POSITION: ", markers[0].position)
+
                 lat1 = randomAttraction.attractionLocation.G
                 lon1 = randomAttraction.attractionLocation.K    
-console.log("YOU CLICKED ", distance(lat1, lon1, lat2, lon2, "M"), " MILES FROM THE START POINT");  
+
 
 distanceFromStart = distance(lat1, lon1, lat2, lon2, "M").toFixed(2)
 infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY.  <br> Reload page to play again."
 
 
  
-  console.log("THERE ARE ", markers.length, " MARKERS");  
+
             if (markers.length > 1)
                 {
-                //console.log("LAST CLICKED MARKER POSITION:", markers.length-1,"at lat lon", markers[markers.length-1].position);
-                //console.log("LAST CLICKED MARKER LAT: ", markers[markers.length-1].position.G)
-                //console.log("LAST CLICKED MARKER LON: ", markers[markers.length-1].position.K)
-                //lat1 = markers[markers.length-1].position.G
-                //lon1 = markers[markers.length-1].position.K   
-                
-                //console.log("SECOND TO LAST CLICKED MARKER POSITION:", markers.length-2, "at lat lon",  markers[markers.length-2].position);
-                //console.log("SECOND TO LAST CLICKED MARKER LAT: ", markers[markers.length-2].position.G)
-                //console.log("SECOND TO LAST CLICKED MARKER LON: ", markers[markers.length-2].position.K)  
-                
+
                 lat2 = markers[markers.length-2].position.G
                 lon2 = markers[markers.length-2].position.K 
-            //console.log("DISTANCE: ", distance(lat1, lon1, lat2, lon2, "M")); 
+
                 }
 } //close addMarker
 
