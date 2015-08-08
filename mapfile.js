@@ -71,16 +71,15 @@ function initialize() {
 var lat1, lon1, lat2, lon2
 
 // Function takes a location and adds a marker at that location
-function addMarker(location) {
+function addMarker(markerLocation) {
   var marker = new google.maps.Marker({
-    position: location,
+    position: markerLocation,
     map: map
   });
   //markers.push(marker);
   //console.log(marker.position);
   //note marker.position is the same as event.latLng
   clickedMarker = marker;
-
   
   lat2 = clickedMarker.position.G
   lon2 = clickedMarker.position.K 
@@ -88,9 +87,8 @@ function addMarker(location) {
   lat1 = randomAttraction.attractionLocation.G
   lon1 = randomAttraction.attractionLocation.K    
 
-
   distanceFromStart = distance(lat1, lon1, lat2, lon2, "M").toFixed(2)
-  infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY.  <br> Reload page to play again."
+  infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY.  <br> Try again or click button to try a new location. <button onclick='location.reload(true)'>Click me</button>"
 
 } //close addMarker
 
