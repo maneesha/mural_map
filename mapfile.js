@@ -4,11 +4,10 @@
 // The user can then click an option to hide, show or delete the markers.
 var map;
 var markers = [];
-var firstLocation;
+var centerLocation;
 var clickedMarker;
 
 /*
-
 Pseudocode:
 
 Get 6 items at random from database
@@ -21,14 +20,12 @@ for i in listOfItems:
     dist = distance
     click for next
     
-    
 click to display actual location
-    
 //point system?
 
 */
 
-
+//Create a bunch of attractions and put them in a list
 var artMuseum ={attractionName:"Philadelphia Museum of Art", attractionLocation: new google.maps.LatLng(39.964741, -75.179733)}
 var independenceHall = {attractionName: "Independence Hall", attractionLocation: new google.maps.LatLng(39.948703, -75.149891)};
 var franklinMills = {attractionName: "Franklin Mills Mall", attractionLocation: new google.maps.LatLng(40.085967, -74.963622)};
@@ -38,28 +35,33 @@ var cityHall = {attractionName: "City Hall", attractionLocation: new google.maps
 
 attractions = [artMuseum, independenceHall, franklinMills, philliesStadium, rittenhouseSquare, cityHall];
 
+//Choose one from the list at random 
 randomAttraction = attractions[Math.floor(Math.random()*attractions.length)];
 
+//Initialize the map
 function initialize() {
 
   locationTarget.innerHTML = "Where is " + randomAttraction.attractionName;
 
-  firstLocation = new google.maps.LatLng(39.97699298, -75.164469157);
+  centerLocation = new google.maps.LatLng(39.97699298, -75.164469157);
   var mapOptions = {
     zoom: 12,
-    center: firstLocation,
+    center: centerLocation,
     mapTypeId: google.maps.MapTypeId.TERRAIN, 
-    styles:  [ { featureType: "poi", elementType: "labels", stylers: [ { visibility: "off" } ] }, { featureType: "transit", elementType: "labels", stylers: [ { visibility: "off" } ] }] 
-      };
+    styles:  [
+             //get rid of points of interest & transit
+             { featureType: "poi", elementType: "labels", stylers: [ { visibility: "off" } ] }, 
+             { featureType: "transit", elementType: "labels", stylers: [ { visibility: "off" } ] }] 
+  };
 
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
+  //Put the map in the map-canvas div
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
   // This event listener will call addMarker() when the map is clicked.
   google.maps.event.addListener(map, 'click', function(event) {
     addMarker(event.latLng);
+    }); //close click function event
 
-  });
    //clickedMarker = firstLocation
   // Adds a marker at the center of the map.
   //addMarker(firstLocation);
@@ -68,43 +70,29 @@ function initialize() {
 
 var lat1, lon1, lat2, lon2
 
-// Add a marker to the map and push to the array.
+// Function takes a location and adds a marker at that location
 function addMarker(location) {
   var marker = new google.maps.Marker({
     position: location,
     map: map
   });
-  markers.push(marker);
+  //markers.push(marker);
   //console.log(marker.position);
   //note marker.position is the same as event.latLng
   clickedMarker = marker;
 
   
-                lat2 = clickedMarker.position.G
-                lon2 = clickedMarker.position.K 
+  lat2 = clickedMarker.position.G
+  lon2 = clickedMarker.position.K 
 
-                lat1 = randomAttraction.attractionLocation.G
-                lon1 = randomAttraction.attractionLocation.K    
-
-
-distanceFromStart = distance(lat1, lon1, lat2, lon2, "M").toFixed(2)
-infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY.  <br> Reload page to play again."
+  lat1 = randomAttraction.attractionLocation.G
+  lon1 = randomAttraction.attractionLocation.K    
 
 
- 
+  distanceFromStart = distance(lat1, lon1, lat2, lon2, "M").toFixed(2)
+  infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY.  <br> Reload page to play again."
 
-            if (markers.length > 1)
-                {
-
-                lat2 = markers[markers.length-2].position.G
-                lon2 = markers[markers.length-2].position.K 
-
-                }
 } //close addMarker
-
-
-
-
 
 // Sets the map on all markers in the array.
 function setAllMap(map) {
@@ -129,11 +117,6 @@ function deleteMarkers() {
   markers = [];
 }
 
-
-
-
-    
-    
 function distance(lat1, lon1, lat2, lon2, unit) {
     var radlat1 = Math.PI * lat1/180
     var radlat2 = Math.PI * lat2/180
@@ -149,9 +132,5 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     if (unit=="N") { dist = dist * 0.8684 }
     return dist
 }  
-
-
-
-
 
 google.maps.event.addDomListener(window, 'load', initialize);
