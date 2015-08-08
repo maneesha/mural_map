@@ -70,6 +70,19 @@ function initialize() {
 
 var lat1, lon1, lat2, lon2
 
+for (i=0; i<attractions.length; i++) {
+  console.log(attractions[i])
+
+}
+
+while (x<attractions.length) {
+  //play the game
+  //increment x after button click
+
+}
+
+
+
 // Function takes a location and adds a marker at that location
 function addMarker(markerLocation) {
   var marker = new google.maps.Marker({
