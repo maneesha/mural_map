@@ -76,9 +76,6 @@ function addMarker(markerLocation) {
     position: markerLocation,
     map: map
   });
-  //markers.push(marker);
-  //console.log(marker.position);
-  //note marker.position is the same as event.latLng
   clickedMarker = marker;
   
   lat2 = clickedMarker.position.G
