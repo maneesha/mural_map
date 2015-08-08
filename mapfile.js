@@ -92,28 +92,6 @@ function addMarker(markerLocation) {
 
 } //close addMarker
 
-// Sets the map on all markers in the array.
-function setAllMap(map) {
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(map);
-  }
-}
-
-// Removes the markers from the map, but keeps them in the array.
-function clearMarkers() {
-  setAllMap(null);
-}
-
-// Shows any markers currently in the array.
-function showMarkers() {
-  setAllMap(map);
-}
-
-// Deletes all markers in the array by removing references to them.
-function deleteMarkers() {
-  clearMarkers();
-  markers = [];
-}
 
 function distance(lat1, lon1, lat2, lon2, unit) {
     var radlat1 = Math.PI * lat1/180
