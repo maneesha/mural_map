@@ -72,10 +72,14 @@ function initialize() {
   document.getElementById("myBtn").addEventListener("click", 
     function() {
       marker.setMap(null)
-      i = (i+1) % attractions.length;
+      //i = (i+1) // % attractions.length;
           console.log(attractions[i]);
       document.getElementById("infobox").innerHTML += i;
-      getAttraction(i);
+      if (i<attractions.length) {
+        getAttraction(i);
+      }
+      else {document.getElementById("infobox").innerHTML = "GAME OVER"}
+      i = (i+1) // % attractions.length;
 
     });
 
