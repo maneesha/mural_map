@@ -71,15 +71,11 @@ function initialize() {
   i = 0;
   document.getElementById("myBtn").addEventListener("click", 
     function() {
+      marker.setMap(null)
       i = (i+1) % attractions.length;
-      console.log(attractions[i]);
-      document.getElementById("infobox").innerHTML += "click" + i;
+          console.log(attractions[i]);
+      document.getElementById("infobox").innerHTML += i;
       getAttraction(i);
-
-      // document.getElementById("myBtn").textContent = "Game started";
-      // i++
-      // console.log(i);
-      // getAttraction(1);
 
     });
 
@@ -87,7 +83,10 @@ function initialize() {
 
 
 
-
+  marker = new google.maps.Marker({
+    position: new google.maps.LatLng(39.97699298, -75.164469157),
+    map: map
+  });
 var lat1, lon1, lat2, lon2
 
 function getAttraction(z) {
@@ -97,16 +96,9 @@ function getAttraction(z) {
 
 }
 
-
-function getNextAttraction() {
-
-
-}
-
-
 // Function takes a location and adds a marker at that location
 function addMarker(markerLocation) {
-  var marker = new google.maps.Marker({
+  marker = new google.maps.Marker({
     position: markerLocation,
     map: map
   });
@@ -116,7 +108,9 @@ function addMarker(markerLocation) {
   lon2 = clickedMarker.position.K 
 
   distanceFromStart = distance(lat1, lon1, lat2, lon2, "M").toFixed(2)
-  infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY.  <br> Try again or click button to try a new location. <button onclick='location.reload(true)'>Click me</button>"
+  infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY."
+  infobox.innerHTML += "<br>Click button to try next attraction."
+
 
 } //close addMarker
 
