@@ -3,9 +3,9 @@
 // The markers are stored in an array.
 // The user can then click an option to hide, show or delete the markers.
 var map;
-var markers = [];
 var centerLocation;
 var clickedMarker;
+var lat1, lon1, lat2, lon2
 
 /*
 Pseudocode:
@@ -32,20 +32,14 @@ var franklinMills = {attractionName: "Franklin Mills Mall", attractionLocation: 
 var philliesStadium = {attractionName: "Phillies Stadium", attractionLocation: new google.maps.LatLng(39.905530, -75.165818)};
 var rittenhouseSquare = {attractionName: "Rittenhouse Square", attractionLocation: new google.maps.LatLng(39.949827, -75.171998)};
 var cityHall = {attractionName: "City Hall", attractionLocation: new google.maps.LatLng(39.952623, -75.163372)}
+var galleryMall;
+var bartramsGarden;
+var morrisArboretum;
 
 attractions = [artMuseum, independenceHall, franklinMills, philliesStadium, rittenhouseSquare, cityHall];
 
-//Choose one from the list at random 
-randomAttraction = attractions[Math.floor(Math.random()*attractions.length)];
-
-
-//Instead of getting a randomAttraction, just get the first one
-
 //Initialize the map
 function initialize() {
-
-
-
 
   centerLocation = new google.maps.LatLng(39.97699298, -75.164469157);
   var mapOptions = {
@@ -67,37 +61,36 @@ function initialize() {
     }); //close click function event
 
 
-
+  //Step through items in attractions list
   i = 0;
   document.getElementById("myBtn").addEventListener("click", 
     function() {
-      marker.setMap(null)
-      //i = (i+1) // % attractions.length;
-          console.log(attractions[i]);
+
+      //Remove any exisiting marker
+      if (typeof marker !== 'undefined') {marker.setMap(null)}
+      
+      //Just some debugging - remove for deployment
+      console.log(attractions[i]);
       document.getElementById("infobox").innerHTML += i;
+      
+      //Continue game only for as long as the number of attractions
+      //This populates the #infobox but does not actually stop user from playing
       if (i<attractions.length) {
         getAttraction(i);
       }
       else {document.getElementById("infobox").innerHTML = "GAME OVER"}
-      i = (i+1) // % attractions.length;
 
-    });
+      //Go to next item in array  
+      //modulus operator is not necessary here; makes loop cycle back to zero
+      i = (i+1) // % attractions.length;
+    });//close click eventListener
 
 } //close function initialize()
-
-
-
-  marker = new google.maps.Marker({
-    position: new google.maps.LatLng(39.97699298, -75.164469157),
-    map: map
-  });
-var lat1, lon1, lat2, lon2
 
 function getAttraction(z) {
   locationTarget.innerHTML = "Where is " + attractions[z].attractionName;
   lat1 = attractions[z].attractionLocation.G
   lon1 = attractions[z].attractionLocation.K    
-
 }
 
 // Function takes a location and adds a marker at that location
@@ -134,13 +127,5 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     if (unit=="N") { dist = dist * 0.8684 }
     return dist
 }  
-
-
-// var x = 0;
-// if (x<attractions.length) {
-//   //play the game
-//   //increment x after button click
-// google.maps.event.addDomListener(window, 'load', initialize(1));
-// }
 
 google.maps.event.addDomListener(window, 'load', initialize);
