@@ -10,11 +10,13 @@
         padding: 0;
       }
 	  
+
+
 	  #locationTarget {width: 200px; border: solid blue;}
 	  #infobox {width: 200px; border: solid blue;}
-      #panel {
+      #myBtn {
         position: absolute;
-        top: 5px;
+        top: 200px;
         left: 50%;
         margin-left: -180px;
         z-index: 5;
@@ -49,9 +51,25 @@
         font-size: 12px;
       }
 
+
+
+       .labels {
+   color: red;
+   background-color: white;
+   font-family: "Lucida Grande", "Arial", sans-serif;
+   font-size: 10px;
+   font-weight: bold;
+   text-align: center;
+   /*width: 60px;  */   
+   border: 2px solid black;
+   white-space: nowrap;
+ }
+
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script src="markerwithlabel.js"></script>
     <script src="mapfile.js"></script>
+
   </head>
 
   <body>

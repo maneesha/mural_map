@@ -46,6 +46,10 @@ function initialize() {
     zoom: 12,
     center: centerLocation,
     mapTypeId: google.maps.MapTypeId.TERRAIN, 
+disableDefaultUI: true,
+scaleControl: true,
+    zoomControl: true,
+
     styles:  [
              //get rid of points of interest & transit
              { featureType: "poi", elementType: "labels", stylers: [ { visibility: "off" } ] }, 
@@ -78,10 +82,11 @@ function initialize() {
 
       //Remove any exisiting marker
       if (typeof marker !== 'undefined') {marker.setMap(null)}
+      if (typeof attractionMarker !== 'undefined') {attractionMarker.setMap(null)}
       if (typeof clickedMarker !== 'undefined') {clickedMarker.setMap(null)}      
       //Just some debugging - remove for deployment
-      console.log(attractions[i]);
-      document.getElementById("infobox").innerHTML += i;
+      // console.log(attractions[i]);
+      // document.getElementById("infobox").innerHTML += i;
       
       //Continue game only for as long as the number of attractions
       //This populates the #infobox but does not actually stop user from playing
@@ -105,6 +110,7 @@ function initialize() {
 var k;
 function getAttraction(z) {
   k = attractions[z].attractionName;
+  m = attractions[z].attractionLocation;
   locationTarget.innerHTML = "Where is " + attractions[z].attractionName;
   lat1 = attractions[z].attractionLocation.G
   lon1 = attractions[z].attractionLocation.K    
@@ -112,8 +118,8 @@ function getAttraction(z) {
 
 // Function takes a location and adds a marker at that location
 function addMarker(markerLocation) {
-      if (typeof marker !== 'undefined') {marker.setMap(null)}
-      if (typeof clickedMarker !== 'undefined') {clickedMarker.setMap(null)}     
+  if (typeof marker !== 'undefined') {marker.setMap(null)}
+  if (typeof clickedMarker !== 'undefined') {clickedMarker.setMap(null)}     
 
 
   marker = new google.maps.Marker({
@@ -125,12 +131,44 @@ function addMarker(markerLocation) {
   lat2 = clickedMarker.position.G
   lon2 = clickedMarker.position.K 
 
+  revealDistance();
+
+         google.maps.event.clearListeners(map, 'click');
+
+  // distanceFromStart = distance(lat1, lon1, lat2, lon2, "M").toFixed(2)
+  // infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY FROM " + k;
+  // infobox.innerHTML += "<br>Click button to try next attraction."
+
+
+} //close addMarker
+
+
+function revealDistance() {
   distanceFromStart = distance(lat1, lon1, lat2, lon2, "M").toFixed(2)
   infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY FROM " + k;
   infobox.innerHTML += "<br>Click button to try next attraction."
 
+  // marker = new google.maps.Marker({
+  //   position: m,
+  //   map: map,
+  //       animation: google.maps.Animation.DROP,
+  //   icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+  // });
+ marker = new MarkerWithLabel({
+   position: m,
+   draggable: false,
+   map: map,
+   labelContent: k,
+   labelAnchor: new google.maps.Point(22, 0),
+   labelClass: "labels", // the CSS class for the label
+   labelStyle: {opacity: 0.75},
+   icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 
-} //close addMarker
+ });
+
+var widthx = document.getElementsByClassName('label').offsetWidth;
+console.log("WIDTH OF ", k, " is ", widthx)
+}
 
 
 function distance(lat1, lon1, lat2, lon2, unit) {
