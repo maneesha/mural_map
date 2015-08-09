@@ -55,10 +55,10 @@ function initialize() {
   //Put the map in the map-canvas div
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-  // This event listener will call addMarker() when the map is clicked.
-  google.maps.event.addListener(map, 'click', function(event) {
-    addMarker(event.latLng);
-    }); //close click function event
+  // // This event listener will call addMarker() when the map is clicked.
+  // google.maps.event.addListener(map, 'click', function(event) {
+  //   addMarker(event.latLng);
+  //   }); //close click function event
 
 
   //Step through items in attractions list
@@ -66,9 +66,19 @@ function initialize() {
   document.getElementById("myBtn").addEventListener("click", 
     function() {
 
+
+      // This event listener will call addMarker() when the map is clicked.
+      google.maps.event.addListener(map, 'click', function(event) {
+        addMarker(event.latLng);
+        }); //close click function event
+
+
+      //Make button say "Next" instead of "Start"
+      this.textContent = "Next";
+
       //Remove any exisiting marker
       if (typeof marker !== 'undefined') {marker.setMap(null)}
-      
+      if (typeof clickedMarker !== 'undefined') {clickedMarker.setMap(null)}      
       //Just some debugging - remove for deployment
       console.log(attractions[i]);
       document.getElementById("infobox").innerHTML += i;
@@ -78,7 +88,12 @@ function initialize() {
       if (i<attractions.length) {
         getAttraction(i);
       }
-      else {document.getElementById("infobox").innerHTML = "GAME OVER"}
+      else {
+        document.getElementById("infobox").innerHTML = "GAME OVER";
+        document.getElementById("locationTarget").innerHTML = "";
+        document.getElementById("myBtn").disabled = true;
+        google.maps.event.clearListeners(map, 'click');
+      }
 
       //Go to next item in array  
       //modulus operator is not necessary here; makes loop cycle back to zero
@@ -87,7 +102,9 @@ function initialize() {
 
 } //close function initialize()
 
+var k;
 function getAttraction(z) {
+  k = attractions[z].attractionName;
   locationTarget.innerHTML = "Where is " + attractions[z].attractionName;
   lat1 = attractions[z].attractionLocation.G
   lon1 = attractions[z].attractionLocation.K    
@@ -95,6 +112,10 @@ function getAttraction(z) {
 
 // Function takes a location and adds a marker at that location
 function addMarker(markerLocation) {
+      if (typeof marker !== 'undefined') {marker.setMap(null)}
+      if (typeof clickedMarker !== 'undefined') {clickedMarker.setMap(null)}     
+
+
   marker = new google.maps.Marker({
     position: markerLocation,
     map: map
@@ -105,7 +126,7 @@ function addMarker(markerLocation) {
   lon2 = clickedMarker.position.K 
 
   distanceFromStart = distance(lat1, lon1, lat2, lon2, "M").toFixed(2)
-  infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY."
+  infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY FROM " + k;
   infobox.innerHTML += "<br>Click button to try next attraction."
 
 
