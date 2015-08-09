@@ -38,10 +38,14 @@ attractions = [artMuseum, independenceHall, franklinMills, philliesStadium, ritt
 //Choose one from the list at random 
 randomAttraction = attractions[Math.floor(Math.random()*attractions.length)];
 
+
+//Instead of getting a randomAttraction, just get the first one
+
 //Initialize the map
 function initialize() {
 
-  locationTarget.innerHTML = "Where is " + randomAttraction.attractionName;
+
+
 
   centerLocation = new google.maps.LatLng(39.97699298, -75.164469157);
   var mapOptions = {
@@ -62,25 +66,42 @@ function initialize() {
     addMarker(event.latLng);
     }); //close click function event
 
-   //clickedMarker = firstLocation
-  // Adds a marker at the center of the map.
-  //addMarker(firstLocation);
+
+
+  i = 0;
+  document.getElementById("myBtn").addEventListener("click", 
+    function() {
+      i = (i+1) % attractions.length;
+      console.log(attractions[i]);
+      document.getElementById("infobox").innerHTML += "click" + i;
+      getAttraction(i);
+
+      // document.getElementById("myBtn").textContent = "Game started";
+      // i++
+      // console.log(i);
+      // getAttraction(1);
+
+    });
+
 } //close function initialize()
+
+
 
 
 var lat1, lon1, lat2, lon2
 
-for (i=0; i<attractions.length; i++) {
-  console.log(attractions[i])
+function getAttraction(z) {
+  locationTarget.innerHTML = "Where is " + attractions[z].attractionName;
+  lat1 = attractions[z].attractionLocation.G
+  lon1 = attractions[z].attractionLocation.K    
 
 }
 
-while (x<attractions.length) {
-  //play the game
-  //increment x after button click
+
+function getNextAttraction() {
+
 
 }
-
 
 
 // Function takes a location and adds a marker at that location
@@ -89,16 +110,10 @@ function addMarker(markerLocation) {
     position: markerLocation,
     map: map
   });
-  //markers.push(marker);
-  //console.log(marker.position);
-  //note marker.position is the same as event.latLng
   clickedMarker = marker;
   
   lat2 = clickedMarker.position.G
   lon2 = clickedMarker.position.K 
-
-  lat1 = randomAttraction.attractionLocation.G
-  lon1 = randomAttraction.attractionLocation.K    
 
   distanceFromStart = distance(lat1, lon1, lat2, lon2, "M").toFixed(2)
   infobox.innerHTML = "YOU CLICKED " + distanceFromStart + " MILES AWAY.  <br> Try again or click button to try a new location. <button onclick='location.reload(true)'>Click me</button>"
@@ -121,5 +136,13 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     if (unit=="N") { dist = dist * 0.8684 }
     return dist
 }  
+
+
+// var x = 0;
+// if (x<attractions.length) {
+//   //play the game
+//   //increment x after button click
+// google.maps.event.addDomListener(window, 'load', initialize(1));
+// }
 
 google.maps.event.addDomListener(window, 'load', initialize);
